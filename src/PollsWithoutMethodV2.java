@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class PollsWithoutMethodCopy {
+public class PollsWithoutMethodV2 {
     public static void main(String[] args) {
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         String answer = "";
