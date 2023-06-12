@@ -1,7 +1,5 @@
 import java.sql.*;
 
-import cars.FactoryDMLs;
-
 public class ConnectDBsWithMethod {
     public static void main(String[] args) {
         try {
@@ -17,8 +15,7 @@ public class ConnectDBsWithMethod {
             // - query Edit
             Statement statement = connection.createStatement();
             String query = "SELECT * FROM factorys";
-            FactoryDMLs factoryDMLs = new FactoryDMLs();
-            ResultSet resultSet = factoryDMLs.SelectStatements(statement, query);
+            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 System.out.println(resultSet.getString("COMPANY_ID") + resultSet.getString("COMPANY"));
             }
