@@ -1,5 +1,7 @@
 import java.sql.*;
 
+import cars.AnyStatements;
+
 public class ConnectDBsWithMethod {
     public static void main(String[] args) {
         try {
@@ -15,7 +17,8 @@ public class ConnectDBsWithMethod {
             // - query Edit
             Statement statement = connection.createStatement();
             String query = "SELECT * FROM factorys";
-            ResultSet resultSet = statement.executeQuery(query);
+            AnyStatements anyStatements = new AnyStatements();
+            ResultSet resultSet = anyStatements.selectStatement(statement, query);
             while (resultSet.next()) {
                 System.out.println(resultSet.getString("COMPANY_ID") + resultSet.getString("COMPANY"));
             }
