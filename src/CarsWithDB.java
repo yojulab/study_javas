@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class CarsWithDB {
@@ -27,6 +28,7 @@ public class CarsWithDB {
                 System.out.print("선택입력 : ");
                 workKey = scanner.nextLine();
                 if (workKey.equals("O")) {
+                    //- 차 이름 명단
                     System.out.println("- 차 이름 명단");
                     query = "SELECT T_FAC.COMPANY, T_CAR_INFOR.CAR_NAME\n" + //
                             "\t, T_CAR_INFOR.CAR_INFOR_ID\n" + //
@@ -39,16 +41,18 @@ public class CarsWithDB {
                     Statement statement2 = connection.createStatement();
                     ResultSet resultSet2;
                     String query2;
+                    HashMap<String, String> carNumberMap = new HashMap<>();
                     while (resultSet.next()) {
                         System.out.print(number + ". " +
                             resultSet.getString("COMPANY") + " - " +
                             resultSet.getString("CAR_NAME") + ": ");
-                            
+                        String carInforId = resultSet.getString("CAR_INFOR_ID");
+                        carNumberMap.put(String.valueOf(number), carInforId);
                         query2 = "SELECT T_OPT_INFO.OPTION_NAME\n" + //
                                 "FROM option_infors AS T_OPT_INFO\n" + //
                                 "\tinner join `options` AS T_OPTS\n" + //
                                 "    ON T_OPT_INFO.OPTION_INFOR_ID = T_OPTS.OPTION_INFOR_ID\n" + //
-                                "    AND T_OPTS.CAR_INFOR_ID = '"+resultSet.getString("CAR_INFOR_ID")+"'";
+                                "    AND T_OPTS.CAR_INFOR_ID = '"+carInforId+"'";
                         resultSet2 = statement2.executeQuery(query2);
                         while(resultSet2.next()){
                             System.out.print(resultSet2.getString("OPTION_NAME")+",");
@@ -56,6 +60,25 @@ public class CarsWithDB {
                         number = number + 1;
                         System.out.println();
                     }
+                    // - 차명 번호 입력 :
+                    System.out.print("- 차 이름 명단 : ") ;
+                    String CarNumber = scanner.nextLine();
+                    // System.out.println("차명 PK : " + carNumberMap.get(CarNumber));
+                    System.out.println("- 선택 가능 옵션들");
+                    query = "SELECT OPTION_INFOR_ID, OPTION_NAME\n" + //
+                            "FROM option_infors";
+                    resultSet = statement.executeQuery(query);
+                    number = 1;
+                    HashMap<String, String> carOptionInfor = new HashMap<>();
+                    while(resultSet.next()){
+                        System.out.print(number +"."+ resultSet.getString("OPTION_NAME")+", ");
+                        carOptionInfor.put(String.valueOf(number), resultSet.getString("OPTION_INFOR_ID"));
+                        number = number + 1;
+                    }
+                    System.out.println();
+                    System.out.print("- 추가 옵션 선택 : ");
+                    String optionNumber = scanner.nextLine();
+                    System.out.println(carNumberMap.get(CarNumber) +", "+carOptionInfor.get(optionNumber));
 
                 } else if (workKey.equals("S")) {
                     System.out.println("- 통계 시작 -");
