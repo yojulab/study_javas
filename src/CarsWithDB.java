@@ -5,6 +5,8 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import commons.Commons;
+
 public class CarsWithDB {
     public static void main(String[] args) {
         try {
@@ -79,6 +81,22 @@ public class CarsWithDB {
                     System.out.print("- 추가 옵션 선택 : ");
                     String optionNumber = scanner.nextLine();
                     System.out.println(carNumberMap.get(CarNumber) +", "+carOptionInfor.get(optionNumber));
+                    String carPk = carNumberMap.get(CarNumber);
+                    String optionPk = carOptionInfor.get(optionNumber);
+                    // delete 옵션
+                    query = "DELETE FROM `OPTIONS`\n" + //
+                            "WHERE CAR_INFOR_ID = '"+carPk+"' AND OPTION_INFOR_ID ='"+optionPk+"'";
+                    int count = statement.executeUpdate(query);
+                    // insert 옵션
+                    Commons commons = new Commons();
+                    String optionId = commons.generateUUID();
+                    query = "INSERT INTO `OPTIONS`\n" + //
+                            "(OPTION_ID, CAR_INFOR_ID, OPTION_INFOR_ID)\n" + //
+                            "value\n" + //
+                            "('"+optionId+"', '"+carPk+"', '"+optionPk+"')";
+                    count = statement.executeUpdate(query);
+
+                    System.out.println();
 
                 } else if (workKey.equals("S")) {
                     System.out.println("- 통계 시작 -");
