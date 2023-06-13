@@ -43,6 +43,7 @@ public class CarsWithDB {
                         System.out.print(number + ". " +
                             resultSet.getString("COMPANY") + " - " +
                             resultSet.getString("CAR_NAME") + ": ");
+                            
                         query2 = "SELECT T_OPT_INFO.OPTION_NAME\n" + //
                                 "FROM option_infors AS T_OPT_INFO\n" + //
                                 "\tinner join `options` AS T_OPTS\n" + //
