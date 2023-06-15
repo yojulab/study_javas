@@ -3,6 +3,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/**
+ * SurveysApp
+ */
 public class SurveysApp {
     public static void main(String[] args) {
         try {
